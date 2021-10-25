@@ -31,10 +31,10 @@
         </tab-bar-item>
         <tab-bar-item path="/profile">
           <template #item-icon>
-            <img src="@/assets/img/tabbar/profile.svg"/>
+            <img src="@/assets/img/tabbar/profile.svg" />
           </template>
           <template #item-icon-active>
-            <img src="@/assets/img/tabbar/profile_active.svg"/>
+            <img src="@/assets/img/tabbar/profile_active.svg" />
           </template>
           <template #item-text><div>我的</div></template>
         </tab-bar-item>
@@ -51,9 +51,9 @@ export default {
   name: "MainTabBar",
   components: {
     TabBar,
-    TabBarItem
-  }
+    TabBarItem,
+  },
 };
 </script>
 
-<style></style>
+<style scoped></style>

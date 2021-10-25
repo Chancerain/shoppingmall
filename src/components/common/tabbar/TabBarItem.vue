@@ -8,47 +8,47 @@
 
 <script>
 export default {
-  name: 'TabBarItem',
+  name: "TabBarItem",
   props: {
     path: String,
     activeColor: {
       type: String,
-      default: 'red'
-    }
+      default: "red",
+    },
   },
-  data () {
+  data() {
     return {
       // isActive: true
-    }
+    };
   },
   computed: {
-    isActive () {
-      return this.$route.path.indexOf(this.path) !== -1
+    isActive() {
+      return this.$route.path.indexOf(this.path) !== -1;
     },
-    activeStyle () {
-      return this.isActive ? {color: this.activeColor} : {}
-    }
+    activeStyle() {
+      return this.isActive ? { color: this.activeColor } : {};
+    },
   },
   methods: {
-    itemClick () {
-      this.$router.replace(this.path)
-    }
-  }
-}
+    itemClick() {
+      this.$router.replace(this.path);
+    },
+  },
+};
 </script>
 
-<style>
-  .tab-bar-item {
-    flex: 1;
-    text-align: center;
-    height: 49px;
-    margin-top: 3px;
-  }
-  .tab-bar-item img {
-    width: 24px;
-    height: 24px;
-  }
-  .active {
-    color: red;
-  }
+<style scoped>
+.tab-bar-item {
+  flex: 1;
+  text-align: center;
+  height: 49px;
+  margin-top: 3px;
+}
+.tab-bar-item img {
+  width: 24px;
+  height: 24px;
+}
+.active {
+  color: red;
+}
 </style>
