@@ -15,8 +15,8 @@
       <feature-view />
       <tab-control
         :titles="['流行', '新款', '精选']"
-        class="tab-control"
         @tabClick="tabClick"
+        ref="tabControl"
       />
       <goods-list :goods="showGoods" />
     </scroll>
@@ -38,6 +38,7 @@ import Scroll from "components/common/scroll/Scroll.vue";
 import BackTop from "components/content/backTop/BackTop.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
+import { debounce } from "common/utils.js";
 
 export default {
   name: "Home",
@@ -63,6 +64,7 @@ export default {
       },
       currentType: "pop",
       isShowBackTop: true,
+      tabOffsetTop: 0,
     };
   },
   computed: {
@@ -75,6 +77,15 @@ export default {
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
+  },
+  mounted() {
+    const refresh = debounce(this.$refs.scroll.refresh, 50);
+    this.$bus.$on("itemImageLoad", () => {
+      // this.$refs.scroll.refresh();
+      refresh();
+    });
+
+    console.log(this.$refs.tabControl.$el.offsetTop);
   },
   methods: {
     tabClick(index) {
@@ -98,7 +109,6 @@ export default {
     },
     loadMore() {
       this.getHomeGoods(this.currentType);
-
       this.$refs.scroll.scroll.refresh();
     },
 
@@ -139,12 +149,6 @@ export default {
   z-index: 9;
 }
 
-.tab-control {
-  position: sticky;
-  top: 44px;
-  background-color: #fff;
-  z-index: 9;
-}
 .wrapper {
   height: 100vh;
 }
