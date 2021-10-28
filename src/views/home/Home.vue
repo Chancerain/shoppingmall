@@ -1,6 +1,12 @@
 <template>
   <div id="home" class="wrapper" ref="wrapper">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
+    <tab-control
+      :titles="['流行', '新款', '精选']"
+      @tabClick="tabClick"
+      ref="tabControl1"
+      v-show="isTabFixed"
+    />
 
     <scroll
       class="content"
@@ -10,13 +16,13 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
-      <home-swiper :banners="banners" />
+      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad" />
       <recommend-view :recommends="recommends" />
       <feature-view />
       <tab-control
         :titles="['流行', '新款', '精选']"
         @tabClick="tabClick"
-        ref="tabControl"
+        ref="tabControl2"
       />
       <goods-list :goods="showGoods" />
     </scroll>
@@ -65,11 +71,20 @@ export default {
       currentType: "pop",
       isShowBackTop: true,
       tabOffsetTop: 0,
+      isTabFixed: false,
     };
   },
   computed: {
     showGoods() {
       return this.goods[this.currentType].list;
+    },
+
+    activated() {
+      this.$refs.scroll.scrollTo(0, this.saveY, 0);
+      this.$refs.scroll.refresh();
+    },
+    deactivated() {
+      this.saveY = this.$refs.scroll.getScrollY();
     },
   },
   created() {
@@ -100,18 +115,26 @@ export default {
           this.currentType = "sell";
           break;
       }
+
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
     },
     backClick() {
       this.$refs.scroll.scrollTo(0, 0);
     },
     contentScroll(position) {
       this.isShowBackTop = -position.y > 1000;
+
+      this.isTabFixed = -position.y > this.tabOffsetTop;
     },
+
     loadMore() {
       this.getHomeGoods(this.currentType);
       this.$refs.scroll.scroll.refresh();
     },
-
+    swiperImageLoad() {
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+    },
     getHomeMultidata() {
       getHomeMultidata().then((res) => {
         this.banners = res.data.banner.list;
@@ -135,29 +158,31 @@ export default {
 <style scoped>
 #home {
   height: 100vh;
-  padding-top: 44px;
 }
 
 .home-nav {
   background-color: var(--color-tint);
   color: #fff;
 
-  position: fixed;
+  /* position: fixed;
   left: 0;
   right: 0;
   top: 0;
-  z-index: 9;
+  z-index: 9; */
 }
 
 .wrapper {
   height: 100vh;
+  overflow: hidden;
 }
 
+/* .tab-control {
+  /* position: relative; */
+/* } */
 .content {
   height: calc(100% - 84px);
-
   /* background-color: red; */
-  /* overflow: hidden; */
+  overflow: hidden;
   /* margin-top: 44px; */
 }
 </style>
