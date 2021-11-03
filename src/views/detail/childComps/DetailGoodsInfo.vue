@@ -1,6 +1,11 @@
 <template>
-  <div v-if="Object.keys(detailInfo).length !== 0 && detailInfo.detailImage[0].list !== null"
-       class="goods-info">
+  <div
+    v-if="
+      Object.keys(detailInfo).length !== 0 &&
+      detailInfo.detailImage[0].list !== null
+    "
+    class="goods-info"
+  >
     <div class="info-desc clear-fix">
       <div class="start"></div>
       <div class="desc">{{ detailInfo.desc }}</div>
@@ -12,7 +17,8 @@
         v-for="(item, index) in detailInfo.detailImage[0].list"
         :key="index"
         :src="item"
-        @load="imgLoad" />
+        @load="imgLoad"
+      />
     </div>
   </div>
 </template>
@@ -47,9 +53,9 @@ export default {
     detailInfo() {
       // 获取图片的个数
       this.imagesLength = this.detailInfo.detailImage[0].list.length;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

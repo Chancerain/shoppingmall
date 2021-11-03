@@ -45,6 +45,7 @@ import BackTop from "components/content/backTop/BackTop.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
 import { debounce } from "common/utils.js";
+import { itemListenerMixin } from "common/mixin";
 
 export default {
   name: "Home",
@@ -74,6 +75,7 @@ export default {
       isTabFixed: false,
     };
   },
+  mixins: [itemListenerMixin],
   computed: {
     showGoods() {
       return this.goods[this.currentType].list;
@@ -94,13 +96,11 @@ export default {
     this.getHomeGoods("sell");
   },
   mounted() {
-    const refresh = debounce(this.$refs.scroll.refresh, 50);
-    this.$bus.$on("itemImageLoad", () => {
-      // this.$refs.scroll.refresh();
-      refresh();
-    });
-
-    console.log(this.$refs.tabControl.$el.offsetTop);
+    // const refresh = debounce(this.$refs.scroll.refresh, 50);
+    // this.$bus.$on("itemImageLoad", () => {
+    //   // this.$refs.scroll.refresh();
+    //   refresh();
+    // });
   },
   methods: {
     tabClick(index) {

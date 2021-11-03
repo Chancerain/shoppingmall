@@ -50,7 +50,6 @@
 
 <script>
 import BScroll from "better-scroll";
-import ScrollVue from "../../../../coderwhy-supermall-master/src/components/common/scroll/Scroll.vue";
 
 export default {
   name: "Category",
